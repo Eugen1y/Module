@@ -12,9 +12,7 @@ class Player:
     def decrease_lives(self):
         self.lives = self.lives - 1
         if self.lives == 0:
-            Score.save_scores(name=self.name, score=self.score)
             raise GameOver(name=self.name, score=self.score)
-
 
     @staticmethod
     def fight(attack, defense):
@@ -81,19 +79,3 @@ class Enemy:
         self.lives = self.lives - 1
         if self.lives == 0:
             raise EnemyDown
-class Score:
-    @staticmethod
-    def save_scores(name, score):
-        new_score = f"1 {name} {score}"
-        with open('scores.txt') as file:
-            scores = [x.strip('\n') for x in file]
-            scores_array = [x.split(' ') for x in scores]
-            scores_array.append(new_score.split(' '))
-            scores_array = sorted(scores_array, key=lambda x: int(x[-1]), reverse=True)
-            for score in range(len(scores_array)):
-                scores_array[score][0] = str(score + 1)
-                with open('scores.txt', 'w+') as file_sc:
-                    for entry in scores_array:
-                        if int(entry[0]) <= 10:
-                            file_sc.write(' '.join(entry) + '\n')
-

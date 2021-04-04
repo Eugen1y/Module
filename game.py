@@ -41,14 +41,13 @@ def play():
             print(f"Level Up!\nLevel is set to {level}")
             player.score += 5
             enemy = Enemy(level=level)
+        except GameOver as err:
+            err.save_scores(name=player.name, score=player.score)
+            break
 
 
 if __name__ == '__main__':
     try:
         play()
-    except GameOver:
-        print('The game is over')
-    except KeyboardInterrupt:
-        pass
     finally:
         print('Good bye')
